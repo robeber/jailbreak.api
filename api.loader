@@ -1,0 +1,23 @@
+-- uhh fetches apis yeah...
+local API_URLS = {
+    AutoRob      = "https://raw.githubusercontent.com/robeber/jailbreak.api/main/api/AutoRob.lua",
+    VehicleMods  = "https://raw.githubusercontent.com/robeber/jailbreak.api/main/api/VehicleMods.lua",
+    Teleports    = "https://raw.githubusercontent.com/robeber/jailbreak.api/main/api/Teleports.lua",
+}
+
+-- // Load each API from GitHub
+local api = {}
+
+for name, url in pairs(API_URLS) do
+    local ok, result = pcall(function()
+        return loadstring(game:HttpGet(url))()
+    end)
+    if ok and result then
+        api[name] = result
+        print("[Loader] Loaded API: " .. name)
+    else
+        warn("[Loader] Failed to load API: " .. name .. "\n" .. tostring(result))
+    end
+end
+
+return api -- expose api in case this script itself is loadstring
